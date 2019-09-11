@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<h1 class="title">Game Details</h1>
+
 <p>
   <strong>Name:</strong>
   <%= @game.name %>
@@ -10,5 +12,5 @@
   <%= @game.description %>
 </p>
 
-<%= link_to 'Edit', edit_game_path(@game) %> |
-<%= link_to 'Back', games_path %>
+<%= link_to 'Edit', edit_game_path(@game), class: "btn btn-outline-primary"%> -
+<%= link_to 'Back', games_path, class: "btn btn-outline-primary" %>
