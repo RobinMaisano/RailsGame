@@ -1,0 +1,21 @@
+%p#notice= notice
+%h1.title Tournament Details
+%p
+  %strong Name:
+  = @tournament.name
+%p
+  %strong Description:
+  = @tournament.description
+%p
+  %strong Date:
+  = @tournament.date
+
+%p
+  %strong Games:
+  %ul
+    - @tournament.games.each do |game|
+      %li= link_to game.name, game_path(game), class: "badge badge-light", style: "font-size: 12px;"
+
+= link_to 'Edit', edit_tournament_path(@tournament), class: "btn btn-outline-primary"
+\-
+= link_to 'Back to List', tournaments_path, class: "btn btn-outline-primary"

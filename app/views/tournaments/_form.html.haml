@@ -1,0 +1,28 @@
+= form_with(model: tournament, local: true) do |form|
+  - if tournament.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(tournament.errors.count, "error")
+        prohibited this tournament from being saved:
+      %ul
+        - tournament.errors.full_messages.each do |message|
+          %li= message
+  .form-group
+    .field
+      = form.label :name
+      = form.text_field :name, class: "form-control"
+    .field
+      = form.label :description
+      = form.text_area :description, class: "form-control"
+    .field
+      = form.label :date
+      = form.datetime_select :date, class: "form-control"
+    .field
+      = hidden_field_tag "tournament[game_ids][]", nil
+      - Game.all.each do |game|
+        = check_box_tag "tournament[game_ids][]", game.id, @tournament.game_ids.include?(game.id)
+        = game.name
+        %br
+
+    .actions
+      = form.submit class: "btn btn-outline-success"

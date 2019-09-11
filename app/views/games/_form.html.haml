@@ -1,0 +1,18 @@
+= form_with(model: game, local: true) do |form|
+  - if game.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(game.errors.count, "error")
+        prohibited this game from being saved:
+      %ul
+        - game.errors.full_messages.each do |message|
+          %li= message
+  .form-group
+    .field
+      = form.label :name
+      = form.text_field :name, class: "form-control"
+    .field
+      = form.label :description
+      = form.text_area :description, class: "form-control", rows: "6"
+    .actions
+      = form.submit class: "btn btn-outline-success"

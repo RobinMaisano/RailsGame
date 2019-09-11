@@ -1,0 +1,11 @@
+%p#notice= notice
+%h1.title Game Details
+%p
+  %strong Name:
+  = @game.name
+%p
+  %strong Description:
+  = @game.description
+= link_to 'Edit', edit_game_path(@game), class: "btn btn-outline-primary"
+\-
+= link_to 'Back to List', games_path, class: "btn btn-outline-primary"
