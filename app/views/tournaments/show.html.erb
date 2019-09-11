@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h1 class="title">Tournament Details</h1>
+
+<p>
+  <strong>Name:</strong>
+  <%= @tournament.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @tournament.description %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @tournament.date %>
+</p>
+
+<%= link_to 'Edit', edit_tournament_path(@tournament), class: "btn btn-outline-primary" %> -
+<%= link_to 'Back', tournaments_path, class: "btn btn-outline-primary" %>
