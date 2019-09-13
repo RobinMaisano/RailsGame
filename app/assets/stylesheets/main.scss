@@ -11,3 +11,16 @@
 a:visited {
   text-decoration: none;
 }
+
+.error {
+  color: white;
+  background-color: red;
+  display: inline-block;
+  margin-top: 0.5em;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.center_content_horizontally {
+  text-align: center;
+}

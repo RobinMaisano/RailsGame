@@ -10,7 +10,9 @@
     %link{:crossorigin => "anonymous", :href => "https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css", :integrity => "sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS", :rel => "stylesheet"}/
   %body
     .container
-      %p#alert= alert
+      - if alert
+        .center_content_horizontally
+          %p#alert.error= alert
       = yield
       %br
       %br
@@ -19,7 +21,9 @@
         - if controller_name != 'sessions' && controller_name != 'passwords' && controller_name != 'confirmations'
           = link_to "Sign in", new_user_registration_path, class: "btn btn-outline-primary"
           or
-          = link_to "Sign up", new_user_session_path, class: "btn btn-outline-primary"
+          = link_to "Login", new_user_session_path, class: "btn btn-outline-primary"
+          or
+          = link_to "Login with Facebook", user_facebook_omniauth_authorize_path, class: "btn btn-primary", style: "color: white; background-color: #3b5998"
       - else
         - if controller_name != 'registrations'
           = link_to "Logged as #{current_user[:name]}", edit_user_registration_path, class: "btn btn-outline-primary"
