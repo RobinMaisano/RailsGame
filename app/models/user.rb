@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable , :omniauthable
   devise :omniauthable, omniauth_providers: [:facebook]
 
+  before_save :default_role
+
   def self.from_facebook(auth)
 
     where(facebook_id: auth.uid).or(where(email: auth.info.email)).first_or_create do |user|
@@ -16,3 +18,7 @@ class User < ApplicationRecord
   end
 
 end
+
+ def default_role
+   self.role ||= "user" # Ensure role is set on "user"
+ end

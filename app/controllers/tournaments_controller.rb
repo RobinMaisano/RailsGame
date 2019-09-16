@@ -1,19 +1,24 @@
 class TournamentsController < ApplicationController
   before_action :set_tournament, only: [:show, :edit, :update, :destroy]
 
+  authorize_resource
+
   # GET /tournaments
   # GET /tournaments.json
   def index
+    authorize! :read, Tournament
     @tournaments = Tournament.all
   end
 
   # GET /tournaments/1
   # GET /tournaments/1.json
   def show
+    authorize! :read, Tournament
   end
 
   # GET /tournaments/new
   def new
+    authorize! :manage, Tournament
     @tournament = Tournament.new
   end
 

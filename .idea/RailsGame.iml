@@ -46,6 +46,7 @@
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.3, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bundler (v2.0.2, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="byebug (v11.0.1, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cancancan (v3.0.1, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara (v3.15.1, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="childprocess (v2.0.0, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="chromedriver-helper (v2.1.1, RVM: ruby-2.3.4) [gem]" level="application" />

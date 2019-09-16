@@ -16,6 +16,7 @@
     - @tournament.games.each do |game|
       %li= link_to game.name, game_path(game), class: "badge badge-light", style: "font-size: 12px;"
 
-= link_to 'Edit', edit_tournament_path(@tournament), class: "btn btn-outline-primary"
-\-
+- if current_user && current_user.role == "admin"
+  = link_to 'Edit', edit_tournament_path(@tournament), class: "btn btn-outline-primary"
+  \-
 = link_to 'Back to List', tournaments_path, class: "btn btn-outline-primary"

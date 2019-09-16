@@ -1,9 +1,12 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
 
+  authorize_resource
+
   # GET /games
   # GET /games.json
   def index
+    authorize! :read, Game
     @games = Game.all
   end
 

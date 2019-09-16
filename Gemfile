@@ -20,11 +20,15 @@ gem 'haml'
 
 gem "haml-rails", "~> 2.0"
 
+## Authentication
 gem 'devise'
 
 gem 'omniauth'
 gem 'omniauth-facebook'
 
+gem 'cancancan'
+
+# Environment variables
 gem 'figaro'
 
 # Use CoffeeScript for .coffee assets and views
