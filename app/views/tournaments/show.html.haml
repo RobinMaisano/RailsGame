@@ -9,6 +9,9 @@
 %p
   %strong Date:
   = @tournament.date
+%p
+  %strong Max Players:
+  = @tournament.max_players
 
 %p
   %strong Games:
@@ -16,7 +19,20 @@
     - @tournament.games.each do |game|
       %li= link_to game.name, game_path(game), class: "badge badge-light", style: "font-size: 12px;"
 
-- if current_user && current_user.role == "admin"
+%p
+  %strong Participants:
+  %ul
+    - @tournament.users.each do |user|
+      %li= link_to user.name, user_path(user), class: "badge badge-light", style: "font-size: 12px;"
+
+- if current_user &.id
+  - if @tournament.users.include?(current_user)
+    = link_to 'Remove me from participants', destroy_participant_path(@tournament), class: "btn btn-outline-primary", method: :post
+  - else
+    = link_to 'Participate', add_participant_path(@tournament), class: "btn btn-outline-primary", method: :post
+  \-
+
+- if current_user &.role == "admin"
   = link_to 'Edit', edit_tournament_path(@tournament), class: "btn btn-outline-primary"
   \-
 = link_to 'Back to List', tournaments_path, class: "btn btn-outline-primary"

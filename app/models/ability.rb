@@ -10,7 +10,11 @@ class Ability
 
       can :read, [Tournament, Game]
 
-    if user && user.role == "admin"
+    if user&.id
+      can [:add_participant, :destroy_participant], Tournament
+    end
+
+    if user &.role == "admin"
       can :manage, :all
     end
 

@@ -5,6 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable , :omniauthable
   devise :omniauthable, omniauth_providers: [:facebook]
 
+  has_many :participatings, dependent: :destroy
+  has_many :tournaments, through: :participatings
+
   before_save :default_role
 
   def self.from_facebook(auth)

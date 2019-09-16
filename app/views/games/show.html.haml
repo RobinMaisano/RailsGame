@@ -6,6 +6,14 @@
 %p
   %strong Description:
   = @game.description
+
+%p
+  %strong Tournament where you can play this game:
+  %ul
+    - @game.tournaments.each do |tournament|
+      %li= link_to tournament.name, tournament, class: "badge badge-light", style: "font-size: 12px;"
+
+%br
 - if current_user && current_user.role == "admin"
   = link_to 'Edit', edit_game_path(@game), class: "btn btn-outline-primary"
   \-

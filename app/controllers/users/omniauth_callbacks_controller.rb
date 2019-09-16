@@ -11,6 +11,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def facebook
     @user = User.from_facebook(request.env['omniauth.auth'])
 
+    puts "========"
+    puts @user.inspect
+    puts "========"
+
     if @user.persisted?
       unless @user.facebook_id? # First connection w/ facebook, update profile to add Facebook_uid
         @user.facebook_id = request.env['omniauth.auth'].uid
@@ -18,7 +22,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       end
       sign_in_and_redirect @user, event: :authentication
     else
-      session['devise.facebook'] = request.env['omniauth.auth'] # If registration fails, saves results in env var in order to fill the form
+      session['devise.facebook'] = request.env['omniauth.auth'] # If registration fails
       redirect_to new_user_registration_url
     end
   end

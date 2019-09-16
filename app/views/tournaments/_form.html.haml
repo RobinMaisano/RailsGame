@@ -15,6 +15,9 @@
       = form.label :description
       = form.text_area :description, class: "form-control"
     .field
+      = form.label :max_players
+      = form.number_field :max_players, class: "form-control"
+    .field
       = form.label :date
       = form.datetime_select :date, class: "form-control"
     .field

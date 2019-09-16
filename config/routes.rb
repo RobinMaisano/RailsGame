@@ -7,5 +7,11 @@ Rails.application.routes.draw do
 
   root to: 'tournaments#index'
 
+  get '/users/:id', to: 'users#show', as: 'user'
+
+  post '/tournaments/participate/:id', to: 'tournaments#add_participant', as: 'add_participant'
+
+  post '/tournaments/not_participate/:id', to: 'tournaments#destroy_participant', as: 'destroy_participant'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

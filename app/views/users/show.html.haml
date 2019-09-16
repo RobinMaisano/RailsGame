@@ -1,0 +1,9 @@
+%h1.title Profile
+
+%p Username: #{@user.name}
+%p Email: #{@user.email}
+
+%strong Tournaments:
+%ul
+  - @user.tournaments.each do |tournament|
+    %li= link_to tournament.name, tournament, class: "badge badge-light", style: "font-size: 12px;"
