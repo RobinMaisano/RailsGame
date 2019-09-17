@@ -8,7 +8,7 @@
   = @tournament.description
 %p
   %strong Date:
-  = @tournament.date
+  = @tournament.date.to_formatted_s(:long)
 %p
   %strong Max Players:
   = @tournament.max_players
@@ -18,19 +18,14 @@
   %ul
     - @tournament.games.each do |game|
       %li= link_to game.name, game_path(game), class: "badge badge-light", style: "font-size: 12px;"
-
-%p
-  %strong Participants:
-  %ul
-    - @tournament.users.each do |user|
-      %li= link_to user.name, user_path(user), class: "badge badge-light", style: "font-size: 12px;"
-
-- if current_user &.id
-  - if @tournament.users.include?(current_user)
-    = link_to 'Remove me from participants', destroy_participant_path(@tournament), class: "btn btn-outline-primary", method: :post
-  - else
-    = link_to 'Participate', add_participant_path(@tournament), class: "btn btn-outline-primary", method: :post
-  \-
+      %ul.participating_list
+        -@tournament.participatings.where(game_id: game.id).each do |participating|
+          %li= link_to participating.user.name, user_path(participating.user), class: "badge badge-light", style: "font-size: 12px;"
+        - if current_user &.id
+          - unless @tournament.participatings.where(user_id: current_user.id).where(game_id: game.id).size > 0
+            = link_to "Participate", add_participant_path(@tournament, game), class: "badge badge-success", style: "color: white;", method: :post
+          -else
+            = link_to "Remove from list", destroy_participant_path(@tournament, game), class: "badge badge-danger", style: "color: white;", method: :post
 
 - if current_user &.role == "admin"
   = link_to 'Edit', edit_tournament_path(@tournament), class: "btn btn-outline-primary"

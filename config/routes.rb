@@ -9,9 +9,11 @@ Rails.application.routes.draw do
 
   get '/users/:id', to: 'users#show', as: 'user'
 
-  post '/tournaments/participate/:id', to: 'tournaments#add_participant', as: 'add_participant'
+  # get '/tournaments/participate/:id', to: 'tournaments#add_participant', as: 'add_participant'
 
-  post '/tournaments/not_participate/:id', to: 'tournaments#destroy_participant', as: 'destroy_participant'
+  post '/tournaments/participate/:tournament_id/:game_id', to: 'tournaments#add_participant', as: 'add_participant'
+
+  post '/tournaments/not_participate/:tournament_id/:game_id', to: 'tournaments#destroy_participant', as: 'destroy_participant'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

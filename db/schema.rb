@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 2019_09_16_100147) do
   create_table "participatings", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "tournament_id"
+    t.bigint "game_id"
+    t.index ["game_id"], name: "index_participatings_on_game_id"
     t.index ["tournament_id"], name: "index_participatings_on_tournament_id"
     t.index ["user_id"], name: "index_participatings_on_user_id"
   end
@@ -68,6 +70,7 @@ ActiveRecord::Schema.define(version: 2019_09_16_100147) do
 
   add_foreign_key "belongings", "games"
   add_foreign_key "belongings", "tournaments"
+  add_foreign_key "participatings", "games"
   add_foreign_key "participatings", "tournaments"
   add_foreign_key "participatings", "users"
 end
