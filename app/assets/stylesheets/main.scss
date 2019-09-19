@@ -1,3 +1,7 @@
+body {
+  padding-bottom: 3em;
+}
+
 .title {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -33,6 +37,19 @@ a:visited {
   border-radius: 10px;
 }
 
-.participating_list {
-  padding-bottom: 1.5em;
+.btn {
+  margin: 0.5em;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+  bottom: .5em;
 }

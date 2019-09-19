@@ -1,7 +1,7 @@
 class TournamentsController < ApplicationController
   before_action :set_tournament, only: [:show, :edit, :update, :destroy]
-  before_action :set_variables, only: [:add_participant, :destroy_participant]
-  before_action :check_date, only:  [:add_participant, :destroy_participant]
+  before_action :set_variables, only: [:add_participant, :destroy_participant, :generate_matches, :destroy_matches]
+  before_action :check_date_passed, only:  [:add_participant, :destroy_participant]
 
   authorize_resource
 
@@ -75,12 +75,6 @@ class TournamentsController < ApplicationController
       return
     end
 
-    # # If date is reached, break
-    # if DateTime.now.utc > @tournament.date
-    #   redirect_to tournament_path(@tournament), alert: "It's too late to register for this tournament"
-    #   return
-    # end
-
     # Check if user's already a participant in this game-tournament
     exists = @tournament.participatings.where(user_id: current_user.id).where(game_id: @game.id)
 
@@ -94,18 +88,6 @@ class TournamentsController < ApplicationController
       redirect_to tournament_path(@tournament), notice: "You've been successfully added to participant list."
 
     end
-
-    # if @tournament.users.include?(current_user)
-    #   redirect_to tournament_path(@tournament), notice: "You'r already a Participant of this tournament"
-    #   return
-    # end
-    # if @tournament.max_players > @tournament.users.count
-    #   @tournament.users.push(current_user)
-    #   @tournament.save
-    #   redirect_to tournament_path(@tournament), notice: 'You have been successfully added to participant list.'
-    # else
-    #   redirect_to @tournament, alert: 'There are no more places available in this tournament.'
-    # end
   end
 
   # POST /tournaments/not_participate/1
@@ -122,6 +104,53 @@ class TournamentsController < ApplicationController
     end
   end
 
+  # POST /tournaments/generate_matches/:id_tournament/:id_game
+  def generate_matches
+
+    # Check if registration are closed
+    if DateTime.now.utc < @tournament.date
+      redirect_to tournament_path(@tournament), alert: "You can't generate matches while registrations are not closed"
+      return
+    end
+
+    # Check if matches have already generated
+    if @tournament.matches.where(game_id: @game.id).size > 0
+      redirect_to tournament_path(@tournament), alert: "Matches already generated for this game & tournament"
+      return
+    end
+
+    registrations = @tournament.participatings.where(game_id: @game.id)
+    a_registrations = Array(registrations) # Transform into array because dub() function didn't worked on an ActiveRecord
+
+    a_remaining = a_registrations.dup
+
+    a_registrations.each do |registration|
+      a_remaining.delete(registration)
+
+      if a_remaining.size == 0
+        break
+      end
+
+      a_remaining.each do |registration2|
+        Match.create(player1_id: registration.user_id, player2_id: registration2.user_id, tournament_id: @tournament.id, game_id: @game.id)
+      end
+    end
+    puts "END OF GENERATION ! ================="
+    redirect_to tournament_path(@tournament)
+  end
+
+  # POST /tournaments/destroy_matches/:id_tournament/:id_game
+  def destroy_matches
+
+    if @tournament.matches.where(game_id: @game.id).size > 0
+      @tournament.matches.where(game_id: @game.id).destroy_all
+      redirect_to tournament_path(@tournament), notice: "Matches destroyed"
+    else
+      redirect_to tournament_path(@tournament), notice: "No match found"
+    end
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tournament
@@ -133,7 +162,7 @@ class TournamentsController < ApplicationController
       @game = Game.find(params[:game_id])
     end
 
-  def check_date
+  def check_date_passed
     # If date is reached, break
     if DateTime.now.utc > @tournament.date
       redirect_to tournament_path(@tournament), alert: "It's too late to act on this tournament"

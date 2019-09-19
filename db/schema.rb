@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_16_100147) do
+ActiveRecord::Schema.define(version: 2019_09_17_153614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,20 @@ ActiveRecord::Schema.define(version: 2019_09_16_100147) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "player1_id"
+    t.bigint "player2_id"
+    t.bigint "tournament_id"
+    t.bigint "game_id"
+    t.string "winner"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_matches_on_game_id"
+    t.index ["player1_id"], name: "index_matches_on_player1_id"
+    t.index ["player2_id"], name: "index_matches_on_player2_id"
+    t.index ["tournament_id"], name: "index_matches_on_tournament_id"
   end
 
   create_table "participatings", force: :cascade do |t|
@@ -70,6 +84,8 @@ ActiveRecord::Schema.define(version: 2019_09_16_100147) do
 
   add_foreign_key "belongings", "games"
   add_foreign_key "belongings", "tournaments"
+  add_foreign_key "matches", "games"
+  add_foreign_key "matches", "tournaments"
   add_foreign_key "participatings", "games"
   add_foreign_key "participatings", "tournaments"
   add_foreign_key "participatings", "users"

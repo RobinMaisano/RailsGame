@@ -15,14 +15,11 @@
           %p#alert.error= alert
       = yield
       %br
-      %br
 
       - unless current_user
-        - if controller_name != 'sessions' && controller_name != 'passwords' && controller_name != 'confirmations'
+        - if controller_name != 'sessions' && controller_name != 'passwords' && controller_name != 'confirmations' && controller_name != "registrations"
           = link_to "Sign in", new_user_registration_path, class: "btn btn-outline-primary"
-          or
           = link_to "Login", new_user_session_path, class: "btn btn-outline-primary"
-          or
           = link_to "Login with Facebook", user_facebook_omniauth_authorize_path, class: "btn btn-primary", style: "color: white; background-color: #3b5998"
       - else
         - if controller_name != 'registrations'

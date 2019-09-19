@@ -8,6 +8,9 @@ class User < ApplicationRecord
   has_many :participatings, dependent: :destroy
   has_many :tournaments, through: :participatings
 
+  has_many :matches, :class_name => 'Match', :foreign_key => 'player1_id'
+  has_many :matches, :class_name => 'Match', :foreign_key => 'player2_id'
+
   before_save :default_role
 
   def self.from_facebook(auth)

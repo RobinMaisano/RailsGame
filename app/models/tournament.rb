@@ -6,4 +6,6 @@ class Tournament < ApplicationRecord
   has_many :participatings, dependent: :destroy
   has_many :users, through: :participatings
 
+  has_many :matches, dependent: :destroy
+
 end

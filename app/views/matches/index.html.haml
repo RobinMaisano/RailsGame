@@ -1,0 +1,31 @@
+%p#notice= notice
+%h1.title Matches
+
+%table#dtBasicExample.table.table-striped.table-bordered.table-sm
+  %thead
+    %tr
+      %th.th-sm Match ID
+      %th.th-sm Player 1
+      %th.th-sm Player 2
+      %th.th-sm Winner
+      %th.th-sm Tournament
+      %th.th-sm Game
+      %th.th-sm
+  %tbody
+    - @matches.each do |match|
+      %tr
+        %td= match.id
+        %td= match.player1.name
+        %td= match.player2.name
+        %td= match.winner
+        %td= match.tournament.name
+        %td= match.game.name
+        - if current_user &.id && (match.player1.id == current_user.id || match.player2.id == current_user.id)
+          - unless match.winner
+            %td= link_to "Set Winner", match_path(match)
+          - else
+            %td Finished
+        - else
+          %td
+
+

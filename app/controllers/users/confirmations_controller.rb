@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: truedata: { confirm: "Are you sure?" }
 
 class Users::ConfirmationsController < Devise::ConfirmationsController
   # GET /resource/confirmation/new
