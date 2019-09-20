@@ -1,0 +1,29 @@
+= form_with(model: match, local: true) do |form|
+  - if match.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(match.errors.count, "error")
+        prohibited this match from being saved:
+      %ul
+        - match.errors.full_messages.each do |message|
+          %li= message
+  .form-group
+    .field
+      = form.label :winner
+      %br
+        = form.radio_button(:winner, @match.player1.name)
+        = form.label(:winner, @match.player1.name)
+        %br
+        = form.radio_button(:winner, @match.player2.name)
+        = form.label(:winner, @match.player2.name)
+        %br
+        = form.radio_button(:winner, "draw")
+        = form.label(:winner, "Draw")
+
+      -#= form.radio_button("winner", @match.player1.name)
+      -#%br
+      -#= form.radio_button("winner", @match.player2.name)
+      -#%br
+      -#= form.radio_button("winner", "draw")
+    .actions
+      = form.submit class: "btn btn-outline-success"

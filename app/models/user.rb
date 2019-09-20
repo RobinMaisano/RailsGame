@@ -13,6 +13,8 @@ class User < ApplicationRecord
 
   before_save :default_role
 
+  validates_uniqueness_of :name
+
   def self.from_facebook(auth)
 
     where(facebook_id: auth.uid).or(where(email: auth.info.email)).first_or_create do |user|

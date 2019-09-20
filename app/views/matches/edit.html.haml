@@ -1,0 +1,11 @@
+%h1.title Editing Match
+
+%p Tournament : #{@match.tournament.name}
+%p Game : #{@match.game.name}
+%p Players : #{@match.player1.name} - #{@match.player2.name}
+%br
+
+= render 'form', match: @match
+= link_to 'Show', @match, class: "btn btn-outline-primary"
+\-
+= link_to 'Back', matches_path, class: "btn btn-outline-primary"

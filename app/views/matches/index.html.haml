@@ -1,6 +1,8 @@
 %p#notice= notice
 %h1.title Matches
 
+= link_to "Generate winners", match_generate_winners_path, class: "btn btn-success", style: "color: white;", method: :post
+
 %table#dtBasicExample.table.table-striped.table-bordered.table-sm
   %thead
     %tr
@@ -15,14 +17,14 @@
     - @matches.each do |match|
       %tr
         %td= match.id
-        %td= match.player1.name
-        %td= match.player2.name
+        %td= link_to match.player1.name, user_path(match.player1), style: "color: black; background-color: transparent;"
+        %td= link_to match.player2.name, user_path(match.player2), style: "color: black; background-color: transparent;"
         %td= match.winner
-        %td= match.tournament.name
-        %td= match.game.name
+        %td= link_to match.tournament.name, tournament_path(match.tournament), style: "color: black; background-color: transparent;"
+        %td= link_to match.game.name, game_path(match.game), style: "color: black; background-color: transparent;"
         - if current_user &.id && (match.player1.id == current_user.id || match.player2.id == current_user.id)
           - unless match.winner
-            %td= link_to "Set Winner", match_path(match)
+            %td= link_to "Set Winner", match_edit_path(match), style: "color: black; background-color: transparent;"
           - else
             %td Finished
         - else

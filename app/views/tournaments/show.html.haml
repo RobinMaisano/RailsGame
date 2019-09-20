@@ -13,46 +13,56 @@
   %strong Max Players:
   = @tournament.max_players
 
-%p
-  %strong Games:
-  %ul
-    - @tournament.games.each do |game|
-      %li= link_to game.name, game_path(game), class: "badge badge-light", style: "font-size: 12px;"
+-#Tab links  // Code snippet from https://www.w3schools.com/howto/howto_js_tabs.asp
+.tab
+  - @tournament.games.each do |game|
+    %button{:class => "tablinks", :onclick => "openTab(event, '#{game.name}')"} #{game.name}
 
+-# Tab content
+- @tournament.games.each do |game|
+  .tabcontent{:id => "#{game.name}"}
+    %h3.title #{game.name}
+    .row
+      .container.col-md-6
+        %h4.title Players
+        %ul
+          -@tournament.participatings.where(game_id: game.id).each do |participating|
+            - matches = @tournament.matches.where(player1_id: participating.user.id).or(@tournament.matches.where(player2_id: participating.user.id)).where(game_id: game.id)
+            - victories = matches.where(winner: participating.user.name).size
+            -#- victories = matches.where(winner: participating.user.id).size
+            - draws = matches.where(winner: "draw").size
+            - points = 0 + (victories*3) + draws
+            %li  #{link_to participating.user.name, user_path(participating.user), class: "badge badge-light", style: "font-size: 12px;"} - #{points} points
+          - if current_user &.id
+            - unless @tournament.participatings.where(user_id: current_user.id).where(game_id: game.id).size > 0
+              = link_to "Participate", add_participant_path(@tournament, game), class: "badge badge-success", style: "color: white;", method: :post
+            -else
+              = link_to "Leave tournament", destroy_participant_path(@tournament, game), class: "badge badge-danger", style: "color: white;", method: :post
 
-      %ul
-        -@tournament.participatings.where(game_id: game.id).each do |participating|
-          %li= link_to participating.user.name, user_path(participating.user), class: "badge badge-light", style: "font-size: 12px;"
-        - if current_user &.id
-          - unless @tournament.participatings.where(user_id: current_user.id).where(game_id: game.id).size > 0
-            = link_to "Participate", add_participant_path(@tournament, game), class: "badge badge-success", style: "color: white;", method: :post
-          -else
-            = link_to "Remove from list", destroy_participant_path(@tournament, game), class: "badge badge-danger", style: "color: white;", method: :post
-      %br
+      .container.col-md-6
+        %h4.title Matches
 
-      %strong Matches:
-      - if @tournament.matches.where(game_id: game.id).size > 0
-        %table.table
-          %thead
-            %tr
-              %th #
-              %th Player 1
-              %th Player 2
-              %th Winner
-          %tbody
-            - i = 1
-            - @tournament.matches.where(game_id: game.id).each do |match|
+        - if @tournament.matches.where(game_id: game.id).size > 0
+          %table.table
+            %thead
               %tr
-                %td= i
-                %td= match.player1.name
-                %td= match.player2.name
-                %td= match.winner
-              - i+=1
+                %th #
+                %th Player 1
+                %th Player 2
+                %th Winner
+            %tbody
+              - i = 1
+              - @tournament.matches.where(game_id: game.id).order(:id).each do |match|
+                %tr
+                  %td= i
+                  %td= match.player1.name
+                  %td= match.player2.name
+                  %td= match.winner
+                - i+=1
 
+        = link_to "Create Matches", generate_matches_path(@tournament, game), class: "btn btn-primary", style: "color: white;", method: :post
+        = link_to "Destroy Matches", destroy_matches_path(@tournament, game), data: { confirm: "Are you sure?" }, class: "btn btn-danger", style: "color: white;", method: :post
 
-      = link_to "Create Matches", generate_matches_path(@tournament, game), class: "btn btn-primary", style: "color: white;", method: :post
-      = link_to "Destroy Matches", destroy_matches_path(@tournament, game), data: { confirm: "Are you sure?" }, class: "btn btn-danger", style: "color: white;", method: :post
-      %br
       %br
 - if current_user &.role == "admin"
   = link_to 'Edit', edit_tournament_path(@tournament), class: "btn btn-outline-primary"
