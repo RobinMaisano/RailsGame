@@ -8,24 +8,38 @@
         - tournament.errors.full_messages.each do |message|
           %li= message
   .form-group
-    .field
-      = form.label :name
-      = form.text_field :name, class: "form-control"
-    .field
-      = form.label :description
-      = form.text_area :description, class: "form-control"
-    .field
-      = form.label :max_players
-      = form.number_field :max_players, class: "form-control"
-    .field
-      = form.label :date
-      = form.datetime_select :date, class: "form-control"
-    .field
-      = hidden_field_tag "tournament[game_ids][]", nil
-      - Game.all.each do |game|
-        = check_box_tag "tournament[game_ids][]", game.id, @tournament.game_ids.include?(game.id)
-        = game.name
-        %br
-
+    .row
+      .field.col-md-6
+        = form.label :name
+        = form.text_field :name, class: "form-control"
+      .field.col-md-12
+        = form.label :description
+        = form.text_area :description, class: "form-control"
+    .row
+      .field.col-md-6
+        = form.label :address
+        = form.text_field :address, class: "form-control"
+      .field.col-md-3
+        = form.label :city
+        = form.text_field :city, class: "form-control"
+      .field.col-md-3
+        = form.label :country
+        = form.text_field :country, class: "form-control"
+    .row
+      .field.col-md-2
+        = form.label :max_players
+        = form.number_field :max_players, class: "form-control"
+      .field.col-md-5
+        = form.label :date
+        %br/
+        = form.datetime_select :date, class: "form-control"
+      .field.col-md-5
+        = form.label :games
+        %br/
+        = hidden_field_tag "tournament[game_ids][]", nil
+        - Game.all.each do |game|
+          = check_box_tag "tournament[game_ids][]", game.id, @tournament.game_ids.include?(game.id)
+          = game.name
+          %br
     .actions
       = form.submit class: "btn btn-outline-success"

@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable , :omniauthable
   devise :omniauthable, omniauth_providers: [:facebook]
 
+  geocoded_by :concat_address
+
   has_many :participatings, dependent: :destroy
   has_many :tournaments, through: :participatings
 
@@ -12,6 +14,8 @@ class User < ApplicationRecord
   has_many :matches, :class_name => 'Match', :foreign_key => 'player2_id'
 
   before_save :default_role
+
+  after_validation :geocode
 
   validates_uniqueness_of :name
 
@@ -23,6 +27,10 @@ class User < ApplicationRecord
       user.password = Devise.friendly_token[0,20]
       user.skip_confirmation!
     end
+  end
+
+  def concat_address
+    [address, city, country].compact.join(',')
   end
 
 end

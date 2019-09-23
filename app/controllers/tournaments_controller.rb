@@ -14,6 +14,13 @@ class TournamentsController < ApplicationController
   # GET /tournaments/1
   # GET /tournaments/1.json
   def show
+
+    distance = @tournament.distance_from(current_user)
+
+
+
+    # @distance
+
   end
 
   # GET /tournaments/new
@@ -171,6 +178,6 @@ class TournamentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tournament_params
-      params.require(:tournament).permit(:name, :description, :date, :max_players, game_ids: [])
+      params.require(:tournament).permit(:name, :description, :date, :max_players, :address, :city, :country, game_ids: [])
     end
 end

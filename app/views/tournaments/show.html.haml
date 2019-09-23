@@ -12,6 +12,13 @@
 %p
   %strong Max Players:
   = @tournament.max_players
+%p
+  %strong Address:
+  #{@tournament.address} - #{@tournament.city}, #{@tournament.country}
+- if current_user&.id
+  %p
+    %strong Distance from you:
+    #{@tournament.distance_from(current_user).round(2)} km
 
 -#Tab links  // Code snippet from https://www.w3schools.com/howto/howto_js_tabs.asp
 .tab
@@ -64,7 +71,7 @@
         = link_to "Destroy Matches", destroy_matches_path(@tournament, game), data: { confirm: "Are you sure?" }, class: "btn btn-danger", style: "color: white;", method: :post
 
       %br
-- if current_user &.role == "admin"
+- if can? :manage, @tournament
   = link_to 'Edit', edit_tournament_path(@tournament), class: "btn btn-outline-primary"
   \-
 = link_to 'Back to List', tournaments_path, class: "btn btn-outline-primary"

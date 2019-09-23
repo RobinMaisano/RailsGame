@@ -11,10 +11,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def facebook
     @user = User.from_facebook(request.env['omniauth.auth'])
 
-    puts "========"
-    puts @user.inspect
-    puts "========"
-
     if @user.persisted?
       unless @user.facebook_id? # First connection w/ facebook, update profile to add Facebook_uid
         @user.facebook_id = request.env['omniauth.auth'].uid
