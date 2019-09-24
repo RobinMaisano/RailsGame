@@ -20,7 +20,7 @@ class MatchesController < ApplicationController
 
   def generate_winners
 
-    matches_result_generate = Match.all.where(winner: nil)
+    matches_result_generate = Match.not_generated
 
     matches_result_generate.each do |match|
 
@@ -47,5 +47,6 @@ class MatchesController < ApplicationController
   def match_params
     params.require(:match).permit(:winner)
   end
+
 
 end

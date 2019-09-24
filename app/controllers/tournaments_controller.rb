@@ -83,7 +83,7 @@ class TournamentsController < ApplicationController
     end
 
     # Check if user's already a participant in this game-tournament
-    exists = @tournament.participatings.where(user_id: current_user.id).where(game_id: @game.id)
+    exists = @tournament.participatings.where(user_id: current_user.id, game_id: @game.id)
 
     if exists.size > 0 # If he's, redirect and notice
       redirect_to tournament_path(@tournament), alert: "You'r already registered for this game"
@@ -99,7 +99,7 @@ class TournamentsController < ApplicationController
 
   # POST /tournaments/not_participate/1
   def destroy_participant
-    exists = @tournament.participatings.where(user_id: current_user.id).where(game_id: @game.id)
+    exists = @tournament.participatings.where(user_id: current_user.id, game_id: @game.id)
 
     if exists.size > 0
       @tournament.participatings.delete(exists)

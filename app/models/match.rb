@@ -5,4 +5,6 @@ class Match < ApplicationRecord
   belongs_to :tournament
   belongs_to :game
 
+  scope :not_generated, -> {where(winner: nil)}
+
 end

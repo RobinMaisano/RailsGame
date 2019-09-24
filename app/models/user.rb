@@ -33,6 +33,12 @@ class User < ApplicationRecord
     [address, city, country].compact.join(',')
   end
 
+  def admin?
+    self.role == "admin"
+  end
+
+  scope :distinct_tournaments, -> {where(tournaments.distinct(:name))}
+
 end
 
  def default_role

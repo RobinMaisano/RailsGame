@@ -1,10 +1,26 @@
 %h1.title Profile
 
-%p Username: #{@user.name}
-%p Email: #{@user.email}
-%p Address: #{@user.address} - #{@user.city}, #{@user.country}
+%p
+  %strong Username:
+  #{@user.name}
 
-%strong Tournaments:
-%ul
-  - @user.tournaments.each do |tournament|
-    %li= link_to tournament.name, tournament, class: "badge badge-light", style: "font-size: 12px;"
+%p
+  %strong Email:
+  #{@user.email}
+
+- if current_user.id == @user.id
+  %p
+    %strong Address:
+    #{@user.address} - #{@user.city}, #{@user.country}
+
+.row
+  .col-md-4
+    %strong Games played:
+    %ul
+      - @result.each do |game|
+        %li= link_to game["name"], game_path(game["game_id"]), class: "badge badge-light", style: "font-size: 12px"
+  .col-md-5
+    %strong Tournaments:
+    %ul
+      - @tournaments_distinct.each do |tournament|
+        %li= link_to tournament.name, tournament, class: "badge badge-light", style: "font-size: 12px;"
