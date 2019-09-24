@@ -1,7 +1,3 @@
-function  testFunction() {
-    alert("Test function !")
-}
-
 // Code snippet from https://www.w3schools.com/howto/howto_js_tabs.asp
 function openTab(evt, tabName) {
     // Declare all variables
@@ -23,3 +19,4 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 }
+

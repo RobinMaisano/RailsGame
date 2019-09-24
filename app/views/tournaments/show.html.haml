@@ -22,12 +22,41 @@
 
 -#Tab links  // Code snippet from https://www.w3schools.com/howto/howto_js_tabs.asp
 .tab
+  %button{:class => "tablinks active", :onclick => "openTab(event, 'results')"} Results
   - @tournament.games.each do |game|
-    %button{:class => "tablinks", :onclick => "openTab(event, '#{game.name}')"} #{game.name}
+    %button{:class => "tablinks", :onclick => "openTab(event, '#{game.id}')"} #{game.name}
 
 -# Tab content
+.tabcontent{:id => "results", :style => "display: block;"}
+  %h3.title Results (ordered by victories)
+  .row
+    .container.col-md-12
+      %table.table.center_content_horizontally
+        %thead
+          %tr
+            %th Player Name
+            %th Victories
+            %th Points
+        %tbody
+          - list = Array.new
+          - @users_distinct.each do |user|
+            - matches = @tournament.matches.where(player1_id: user.id).or(@tournament.matches.where(player2_id: user.id))
+            - victories = matches.where(winner: user.name).size
+            -#- victories = matches.where(winner: participating.user.id).size
+            - draws = matches.where(winner: "draw").size
+            - points = 0 + (victories*3) + draws
+
+            - list.push(name: user.name, victories: victories, points: points)
+
+          - list.sort_by! {|hash| hash[:victories]}.reverse!
+          - list.each do |user|
+            %tr
+            %td{class: "col-md-4"}= user[:name]
+            %td{class: "col-md-4"}= user[:victories]
+            %td{class: "col-md-4"}= user[:points]
+
 - @tournament.games.each do |game|
-  .tabcontent{:id => "#{game.name}"}
+  .tabcontent{:id => "#{game.id}"}
     %h3.title #{game.name}
     .row
       .container.col-md-6

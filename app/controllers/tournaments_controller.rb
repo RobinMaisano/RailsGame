@@ -15,11 +15,7 @@ class TournamentsController < ApplicationController
   # GET /tournaments/1.json
   def show
 
-    distance = @tournament.distance_from(current_user)
-
-
-
-    # @distance
+    @users_distinct = @tournament.users.distinct(:id)
 
   end
 
