@@ -14,11 +14,17 @@
   = @tournament.max_players
 %p
   %strong Address:
-  #{@tournament.address} - #{@tournament.city}, #{@tournament.country}
-- if current_user&.id
+  -if !!@tournament.address
+    #{@tournament.address} - #{@tournament.city}, #{@tournament.country}
+  - else
+    No address specified.
+- if current_user&.id && !!@tournament.address
   %p
     %strong Distance from you:
-    #{@tournament.distance_from(current_user).round(2)} km
+    - unless !!current_user.address
+      Please update your location on your profile page
+    - else
+      #{@tournament.distance_from(current_user).round(2)} km
 
 -#Tab links  // Code snippet from https://www.w3schools.com/howto/howto_js_tabs.asp
 .tab
@@ -38,7 +44,8 @@
             %th Victories
             %th Points
         %tbody
-          - list = Array.new
+
+          - players_order = Array.new
           - @users_distinct.each do |user|
             - matches = @tournament.matches.where(player1_id: user.id).or(@tournament.matches.where(player2_id: user.id))
             - victories = matches.where(winner: user.name).size
@@ -46,14 +53,14 @@
             - draws = matches.where(winner: "draw").size
             - points = 0 + (victories*3) + draws
 
-            - list.push(name: user.name, victories: victories, points: points)
+            - players_order.push(name: user.name, victories: victories, points: points)
 
-          - list.sort_by! {|hash| hash[:victories]}.reverse!
-          - list.each do |user|
+          - players_order.sort_by! {|hash| hash[:victories]}.reverse!
+          - players_order.each do |player|
             %tr
-            %td{class: "col-md-4"}= user[:name]
-            %td{class: "col-md-4"}= user[:victories]
-            %td{class: "col-md-4"}= user[:points]
+            %td{class: "col-md-4"}= player[:name]
+            %td{class: "col-md-4"}= player[:victories]
+            %td{class: "col-md-4"}= player[:points]
 
 - @tournament.games.each do |game|
   .tabcontent{:id => "#{game.id}"}

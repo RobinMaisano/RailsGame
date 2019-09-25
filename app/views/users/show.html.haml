@@ -17,8 +17,8 @@
   .col-md-4
     %strong Games played:
     %ul
-      - @result.each do |game|
-        %li= link_to game["name"], game_path(game["game_id"]), class: "badge badge-light", style: "font-size: 12px"
+      - @result.each do |participating|
+        %li= link_to participating.game.name, participating.game, class: "badge badge-light", style: "font-size: 12px"
   .col-md-5
     %strong Tournaments:
     %ul

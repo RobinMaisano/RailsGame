@@ -5,15 +5,26 @@ class UsersController < ApplicationController
 
     @tournaments_distinct = @user.tournaments.distinct(:id)
 
-    sql = "SELECT DISTINCT game_id, name FROM PARTICIPATINGS INNER JOIN GAMES ON PARTICIPATINGS.game_id = GAMES.id WHERE user_id = #{@user.id}"
-    @result = ActiveRecord::Base.connection.execute(sql)
+    # @test_distinc = @user.participatings.distinct(:game_id)
 
-    # @participatings_distinct = @user.participatings.dinstinct(:game_id)
+    a_participatings = @user.participatings.to_a
+
+    a_uniq_participatings = a_participatings.uniq {|s| s.game_id}
+
+    uniq_participatings = @user.participatings.uniq {|s| s.game_id}
+
     # puts "================================="
-    # puts @participatings_distinct.inspect
+    # puts uniq_participatings.inspect
     # puts "================================="
-    # puts @user.participatings.distinct(:game_id).inspect
+    # puts @distinc.inspect
     # puts "================================="
+
+    # sql = "SELECT DISTINCT game_id, name FROM PARTICIPATINGS INNER JOIN GAMES ON PARTICIPATINGS.game_id = GAMES.id WHERE user_id = #{@user.id}"
+    # @result = ActiveRecord::Base.connection.execute(sql)
+
+    # @result = a_uniq_participatings
+    #
+    @result = uniq_participatings
 
   end
 end
